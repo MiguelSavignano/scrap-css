@@ -13,23 +13,33 @@ describe "ScrapCss::Html" do
 end
 
 describe "ScrapCss::Css" do
-  it ".str_contain_css" do
-    expect(ScrapCss::Css.str_contain_css(".profile-card .avatar {", "avatar"))
-    .to eq(true)
-  end
-  it "#index_close_tag" do
-    expect( ScrapCss::Css.new("spec/fixture/main.css").index_close_tag(3) )
-    .to eq(6)
+  describe ".str_contain_css" do
+    it ".str_contain_css" do
+      expect(ScrapCss::Css.str_contain_css(".profile-card .avatar {", "avatar"))
+      .to eq(true)
+    end
+
+    it ".str_contain_css" do
+      expect(ScrapCss::Css.str_contain_css(
+        ".TweetBox-photoIntent .photo-selector:hover .btn {
+            background: 0;
+            border: 1px solid transparent;
+            -ms-filter: none
+        }",
+        "photo-selector"
+      ))
+      .to eq(true)
+    end
   end
 
   it "#select_css" do
     css_file = ScrapCss::Css.new("spec/fixture/main.css")
-    expect( css_file.select_css(["u-inline"]) ).to eq ([".u-inline {\n    display: inline!important\n}\n"])
+    expect( css_file.select_css(["u-inline"]) ).to eq ([".u-inline {\n    display: inline!important\n}"])
   end
 end
 
-describe "ScrapCss" do
-  it ".run" do
-    ScrapCss.run("spec/fixture/index.html", "spec/fixture/main.css")
-  end
-end
+# describe "ScrapCss" do
+#   it ".run" do
+#     ScrapCss.run("spec/fixture/index.html", "spec/fixture/main.css")
+#   end
+# end

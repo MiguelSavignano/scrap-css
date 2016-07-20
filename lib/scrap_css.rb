@@ -38,28 +38,27 @@ end
 class ScrapCss::Css
   def initialize(path="")
     @file_lines ||= IO.readlines(path)
-    @css_clases_used = []
+    @css_parts = @file_lines.join("").split("\n\n")
+    @css_parts_used = []
   end
 
   def select_css(css_clases_useds)
-    @file_lines.each_with_index do |file_line, index|
-      css_clases_useds.each do |css_clase|
-        if ScrapCss::Css.str_contain_css(file_line, css_clase)
-          @css_clases_used << get_css_class(index, index_close_tag(index))
-        end
+   css_clases_useds.each do |css_clase|
+      @css_parts.each do |css_part|
+        @css_parts_used << css_part if ScrapCss::Css.str_contain_css(css_part, css_clase)
       end
-    end
-    @css_clases_used
+   end
+    @css_parts_used.uniq
   end
 
   def save_select_css
     File.open("output.css", 'w+') do |file|
-      @css_clases_used.each{|css_clase_used| file.write(css_clase_used)  }
+      @css_parts_used.each{|css_clase_used| file.write("#{css_clase_used}\n\n")  }
     end
   end
 
   def self.str_contain_css(str, css_class)
-    str.include?(".#{css_class} ") || str.include?(".#{css_class}.")
+    str.include?(".#{css_class} ") || str.include?(".#{css_class}.") || str.include?(".#{css_class}:")
   end
 
   def get_css_class(first_line, last_line)
