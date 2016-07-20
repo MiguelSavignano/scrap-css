@@ -36,10 +36,23 @@ class ScrapCss::Html
 end
 
 class ScrapCss::Css
-  def initialize(path="")
+  def initialize(path="", url="")
+    @url = url
+    @path = path
     @file_lines ||= IO.readlines(path)
     @css_parts = @file_lines.join("").split("\n\n")
     @css_parts_used = []
+  end
+
+  def unminify()
+    unminify = IO.read(@path)
+    .gsub(";",";\n")
+    .gsub("}","\n}\n\n")
+    .gsub("{","{\n")
+    .gsub(",",",\n")
+
+    File.open("output.css", 'w+'){ |file| file.write(unminify) }
+    true
   end
 
   def select_css(css_clases_useds)

@@ -19,6 +19,12 @@ describe "ScrapCss::Css" do
       .to eq(true)
     end
 
+    it ".unminify" do
+      css_file = ScrapCss::Css.new("spec/fixture/main.min.css")
+      expect(css_file.unminify)
+      .to eq(true)
+    end
+
     it ".str_contain_css" do
       expect(ScrapCss::Css.str_contain_css(
         ".TweetBox-photoIntent .photo-selector:hover .btn {
