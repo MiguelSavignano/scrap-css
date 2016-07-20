@@ -46,10 +46,12 @@ class ScrapCss::Css
 
   def unminify()
     unminify = IO.read(@path)
-    .gsub(";",";\n")
+    .gsub(";",";\n  ")
     .gsub("}","\n}\n\n")
-    .gsub("{","{\n")
+    .gsub("{","{\n  ")
     .gsub(",",",\n")
+    .gsub("*/","*/\n")
+
 
     File.open("output.css", 'w+'){ |file| file.write(unminify) }
     true
