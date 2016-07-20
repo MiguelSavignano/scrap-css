@@ -1,9 +1,14 @@
 require 'scrap_css'
 require 'pry'
 describe "ScrapCss::Html" do
+  it ".get_css_clases" do
+    expect(ScrapCss::Html.get_css_clases('<span class="TweetBoxExtras-item"><div class="geo-picker dropdown">'))
+    .to eq(["TweetBoxExtras-item", "geo-picker", "dropdown"])
+  end
+
   it "#css_clases" do
     html_file = ScrapCss::Html.new("spec/fixture/index.html")
-    expect(html_file.css_clases.size).to eq(125)
+    expect(html_file.css_clases.size).to eq(178)
   end
 end
 

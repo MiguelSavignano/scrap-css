@@ -19,14 +19,19 @@ end
 class ScrapCss::Html
   def initialize(path="")
     @file_lines ||= IO.readlines(path)
+    @css_clases = []
+  end
+
+  def self.get_css_clases(str)
+    str.scan(/class="([^"]*)"/).flatten.map{|css| css.split(" ") }.flatten
   end
 
   def css_clases
-    @css_clases ||=  @file_lines.select{ |line|
-      line =~ /class=/
-    }.map{ |line|
-      line.scan(/class="([^"]*)"/)
-    }.flatten.uniq
+    return @css_clases unless @css_clases.empty?
+    @file_lines.each{ |line|
+      @css_clases << ScrapCss::Html.get_css_clases(line) if line =~ /class=/
+    }
+    @css_clases.flatten.uniq
   end
 end
 
