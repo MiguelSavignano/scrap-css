@@ -19,10 +19,16 @@ describe "ScrapCss::Css" do
       .to eq(true)
     end
 
-    it ".unminify" do
-      css_file = ScrapCss::Css.new("spec/fixture/main.min.css")
-      expect(css_file.unminify)
+    it "#unminify" do
+      css_file = ScrapCss::Css.new("spec/fixture/main.min.css", "https://abs.twimg.com/a/1468984401/css/t1/twitter_core.bundle.css")
+      expect(css_file.unminify.include?("\n\n"))
       .to eq(true)
+    end
+
+    it "#get_urls" do
+      css_file = ScrapCss::Css.new("spec/fixture/main.min.css", "https://abs.twimg.com/a/1468984401/css/t1/twitter_core.bundle.css")
+      expect(css_file.get_urls.first)
+      .to eq("'../../font/rosetta-icons-Regular.eot'")
     end
 
     it ".str_contain_css" do

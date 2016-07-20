@@ -39,22 +39,27 @@ class ScrapCss::Css
   def initialize(path="", url="")
     @url = url
     @path = path
-    @file_lines ||= IO.readlines(path)
-    @css_parts = @file_lines.join("").split("\n\n")
+    @css_parts = IO.read(path).split("\n\n") unless path =~ /.min./
+    @css_parts = self.unminify.split("\n\n") if path =~ /.min./
     @css_parts_used = []
   end
 
-  def unminify()
-    unminify = IO.read(@path)
+  def unminify
+    _unminify = IO.read(@path)
     .gsub(";",";\n  ")
-    .gsub("}","\n}\n\n")
+    .gsub("}","\n}\n\n\n")
     .gsub("{","{\n  ")
     .gsub(",",",\n")
     .gsub("*/","*/\n")
 
+    # File.open("output.css", 'w+'){ |file| file.write(_unminify) }
+    _unminify
+  end
 
-    File.open("output.css", 'w+'){ |file| file.write(unminify) }
-    true
+  def get_urls
+    @css_parts.select{|a| a =~ /url\(/ }
+    .map{|css_part| css_part.scan(/url\(([^)]*)\)/) }
+    .flatten.uniq
   end
 
   def select_css(css_clases_useds)
@@ -74,13 +79,5 @@ class ScrapCss::Css
 
   def self.str_contain_css(str, css_class)
     str.include?(".#{css_class} ") || str.include?(".#{css_class}.") || str.include?(".#{css_class}:")
-  end
-
-  def get_css_class(first_line, last_line)
-    @file_lines[first_line..last_line].join("")
-  end
-
-  def index_close_tag(index)
-    @file_lines[index].include?("}") ? index : index_close_tag(index+1)
   end
 end
