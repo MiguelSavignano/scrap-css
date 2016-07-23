@@ -6,9 +6,9 @@ Get only the css used in a html portion; use to understand a web components from
 ```sh
 gem install scrap-css
 ```
-Create a html file with the portion of html you want to get the css and download the css file
-
 ##Used
+
+Create a html file with the portion of html you want to get the css and download the css file
 ```ruby
 ScrapCss.run("./index.html", "./aplication.css")
 ```
