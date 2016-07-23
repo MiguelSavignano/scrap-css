@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 require 'scrap_css'
-ScrapCss.run(ARGV[0], ARGV[1])
-puts "OK"
+result = ScrapCss.run(ARGV[0], ARGV[1])
+puts "#{result[:css_class_used_size]} css clases used in your html"

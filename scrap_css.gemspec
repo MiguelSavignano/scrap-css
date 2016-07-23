@@ -1,6 +1,8 @@
+require File.expand_path("../lib/version", __FILE__)
+
 Gem::Specification.new do |s|
   s.name        = 'scrap-css'
-  s.version     = '0.0.3'
+  s.version     = ScrapCss::VERSION
   s.executables << 'scrapcss'
   s.date        = '2016-07-20'
   s.summary     = "ScrapCss"

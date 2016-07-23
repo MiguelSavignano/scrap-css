@@ -1,4 +1,5 @@
 module ScrapCss
+
   def self.html_file(path)
     ScrapCss::Html.new(path)
   end
@@ -13,6 +14,7 @@ module ScrapCss
     css_clases = html_file.css_clases
     css_file.select_css(css_clases)
     css_file.save_select_css
+    result = {css_class_used_size:html_file.css_clases.size}
   end
 end
 
