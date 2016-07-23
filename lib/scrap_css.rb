@@ -1,4 +1,8 @@
 module ScrapCss
+  def self.hi
+    "Hi"
+  end
+
   def self.html_file(path)
     ScrapCss::Html.new(path)
   end

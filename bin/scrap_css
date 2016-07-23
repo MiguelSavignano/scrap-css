@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+require 'scrap_css'
+puts ScrapCss.hi
