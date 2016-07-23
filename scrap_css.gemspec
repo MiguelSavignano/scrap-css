@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name        = 'scrap-css'
   s.version     = '0.0.3'
-  s.executables << 'scrap_css'
+  s.executables << 'scrapcss'
   s.date        = '2016-07-20'
   s.summary     = "ScrapCss"
   s.description = "Get only the css used in a html portion; use to understand a web components from other web site."
